@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Upload CSV File Example</title>
+
+        <!--Bootstrap 4-->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    </head>
+    <body>
+       <div class="container py-5">
+        <div class="row">
+            <div class="col-10 mx-auto">
+                <h1>File Upload Status</h1>
+                <!--display error if any-->
+                <div class="alert alert-danger" role="alert" th:if="${!status}">
+                    <strong>Error:</strong>
+                    <span th:text="${message}"></span>
+                </div>
+                
+                <!-- List déroulante -->
+                
+                
+                <div style="display: inline-block">
+                    <form method="GET" th:action="@{/betweenscore}" >
+                    <div class="form-group mt-3">
+                        <label for="score1"></label>
+                        <input type="text"  name="score1" th:value="score1" />
+                    </div>
+                     <div class="form-group mt-3">
+                        <label for="score1"></label>
+                        <input type="text"  name="score2" th:value="score2" />
+                    </div>
+                    <button type="submit" class="btn btn-primary">choose score</button>
+                </form>
+
+                <form method="GET" th:action="@{/lang}">
+                    <div class="form-group mt-3">
+                        <select class="form-control" name="lang">
+                            <option value="">Select lang</option>
+                            <option th:each="lang : ${langs}"
+                                th:value="${lang}"
+                                th:text="${lang}"></option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-secondary">Select Lang</button>
+                </form>
+                
+                <form  th:action = "@{/status-null}"  method="GET">
+                    <button type="submit" class="btn btn-success">StatusIsNull</button>
+                </form>
+                
+                 <form  th:action = "@{/status}"  method="GET">
+                    <button type="submit" class="btn btn-dark">StatusIsNoNull</button>
+                </form>
+                </div>
+                
+                
+                
+
+                <!--display users list-->
+                <table class="table table-striped" th:if="${status}">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">ID</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Aricle date</th>
+                        <th scope="col">lang</th>
+                        <th scope="col">score</th>
+                        <th scope="col">status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="article, i : ${articleCSVs}">
+                        <th scope="row" th:text="${i.index + 1}"></th>
+                        <td th:text="${article.id}"></td>
+                        <td th:text="${article.title}"></td>
+                        <td th:text="${article.articleDate}"></td>
+                        <td th:text="${article.lang}"></td>
+                        <td th:text="${article.score}"></td>
+                        <td th:text="${article.selectStatus}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+</div>
+    </body>
+</html>
